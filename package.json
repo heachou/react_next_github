@@ -8,7 +8,8 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "next start",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "export": "npm run build && next export"
   },
   "repository": {
     "type": "git",

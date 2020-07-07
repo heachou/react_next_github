@@ -2,6 +2,25 @@ import { Button } from 'antd'
 import Link from 'next/link'
 import Router from 'next/router'
 
+const events = [
+  "routeChangeStart",
+  "routeChangeComplete",
+  "routeChangeError",
+  "beforeHistoryChange",
+  "hashChangeStart",
+  "hashChangeComplete"
+]
+
+function makeEvent(type) {
+  return (...args) => {
+    console.log(type,...args)
+  }
+}
+
+events.forEach(event => {
+  Router.events.on(event, makeEvent(event))
+})
+
 export default () => {
   function click() {
     Router.push({
@@ -11,13 +30,13 @@ export default () => {
       }
     })
   }
-  function toB(){
+  function toB() {
     Router.push({
       pathname: '/b',
       query: {
         id: 2
       }
-    },'/b/2')
+    }, '/b/2')
   }
   return <>
     <Button type="primary" onClick={click}>to b</Button>
