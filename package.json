@@ -39,6 +39,7 @@
     "koa": "^2.13.0",
     "koa-router": "^9.1.0",
     "less": "^3.11.3",
+    "moment": "^2.27.0",
     "next": "^9.4.4",
     "next-compose-plugins": "^2.2.0",
     "null-loader": "^4.0.0",
