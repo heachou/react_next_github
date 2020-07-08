@@ -1,4 +1,5 @@
 import App, { Container } from 'next/app'
+import MyContext from '../lib/my-context'
 
 class MyApp extends App {
 
@@ -15,8 +16,9 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     return <div>
-      hello
-      <Component {...pageProps} />
+      <MyContext.Provider value={'test'}>
+        <Component {...pageProps} />
+      </MyContext.Provider>
     </div>
   }
 }
