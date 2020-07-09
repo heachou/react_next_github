@@ -26,8 +26,8 @@ app.prepare().then(() => {
     ctx.respond = false
   })
 
-  server.listen(4000, () => {
-    console.log('server is listening on 4000')
+  server.listen(8000, () => {
+    console.log('server is listening on 8000')
   })
 })
 

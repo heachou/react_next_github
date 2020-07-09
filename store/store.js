@@ -1,5 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import reduxThunk from 'redux-thunk'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 const initialState = {
   count: 0
@@ -49,10 +50,12 @@ const rootReducer = combineReducers({
   user: userReducer
 })
 
+const composeEnhancers = process.env.NODE_ENV === 'development' ? composeWithDevTools(applyMiddleware(reduxThunk)) : applyMiddleware(reduxThunk)
+
 const store = createStore(rootReducer, {
   counter: initialState,
   user: initialUser
-}, applyMiddleware(reduxThunk))
+}, composeEnhancers)
 
 store.subscribe(() => {
   console.log(store.getState())
