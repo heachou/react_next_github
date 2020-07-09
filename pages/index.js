@@ -1,6 +1,11 @@
 import { Button } from 'antd'
 import Link from 'next/link'
 import Router from 'next/router'
+import store from '../store/store'
+
+store.subscribe(() => {
+  console.log(store.getState())
+})
 
 const events = [
   "routeChangeStart",
@@ -13,7 +18,7 @@ const events = [
 
 function makeEvent(type) {
   return (...args) => {
-    console.log(type,...args)
+    console.log(type, ...args)
   }
 }
 
@@ -47,5 +52,6 @@ export default () => {
       <Button> go page c ,id=2 </Button>
     </Link>
     <Button onClick={toB}> go page B ,id=2 </Button>
+    <Button onClick={() => store.dispatch({ type: 'ADD', num: 3 })}> store add</Button>
   </>
 }
