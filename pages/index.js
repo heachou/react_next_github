@@ -1,11 +1,8 @@
 import { Button } from 'antd'
 import Link from 'next/link'
 import Router from 'next/router'
-import store from '../store/store'
-
-store.subscribe(() => {
-  console.log(store.getState())
-})
+import { connect } from 'react-redux'
+import { add,addAsync } from '../store/store'
 
 const events = [
   "routeChangeStart",
@@ -26,7 +23,7 @@ events.forEach(event => {
   Router.events.on(event, makeEvent(event))
 })
 
-export default () => {
+const Index = (props) => {
   function click() {
     Router.push({
       pathname: '/b',
@@ -52,6 +49,9 @@ export default () => {
       <Button> go page c ,id=2 </Button>
     </Link>
     <Button onClick={toB}> go page B ,id=2 </Button>
-    <Button onClick={() => store.dispatch({ type: 'ADD', num: 3 })}> store add</Button>
+    <Button onClick={() => props.add(2)}> store add {props.counter.count}</Button>
+    <Button onClick={() => props.addAsync(3)}> 异步添加 add {props.counter.count}</Button>
   </>
 }
+
+export default connect((state) => ({ counter: state.counter }), { add, addAsync })(Index)

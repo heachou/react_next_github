@@ -23,11 +23,11 @@ function add(num) {
   }
 }
 
-function addAsync(num){
-  return (dispatch)=>{
-    setTimeout(()=>{
+function addAsync(num) {
+  return (dispatch) => {
+    setTimeout(() => {
       dispatch(add(num))
-    },3000)
+    }, 3000)
   }
 }
 
@@ -54,10 +54,14 @@ const store = createStore(rootReducer, {
   user: initialUser
 }, applyMiddleware(reduxThunk))
 
+store.subscribe(() => {
+  console.log(store.getState())
+})
+
 store.dispatch(add(10))
 
 store.dispatch(addAsync(20))
 
-console.log(store.getState())
+export { add, addAsync }
 
 export default store
