@@ -1,6 +1,8 @@
 import { Component } from 'react'
-// import moment from 'moment'
 import dynamic from 'next/dynamic'
+import { Button } from 'antd'
+import Router from 'next/router'
+import TestHocComp from '../lib/test-hoc'
 
 const DynamicComponentWithCustomLoading = dynamic(
   import('../components/comp'),
@@ -17,6 +19,14 @@ class A extends Component {
       moment: moment.default
     }
   }
+  toIndex = () => {
+    Router.push({
+      pathname: '/',
+      query: {
+        from: 'a page'
+      }
+    })
+  }
   render() {
     const { moment, time } = this.props
     return <div>
@@ -25,8 +35,11 @@ class A extends Component {
       }
       <DynamicComponentWithCustomLoading />
       时间：{moment().format('L')}
+      <div>
+        <Button onClick={this.toIndex} type="primary">回到首页</Button>
+      </div>
     </div>
   }
 }
 
-export default A
+export default TestHocComp(A)
