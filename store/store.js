@@ -52,19 +52,20 @@ const rootReducer = combineReducers({
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? composeWithDevTools(applyMiddleware(reduxThunk)) : applyMiddleware(reduxThunk)
 
-const store = createStore(rootReducer, {
-  counter: initialState,
-  user: initialUser
-}, composeEnhancers)
 
-store.subscribe(() => {
-  console.log(store.getState())
-})
-
-store.dispatch(add(10))
-
-store.dispatch(addAsync(20))
 
 export { add, addAsync }
 
-export default store
+export default function initializeStore(state) {
+  const store = createStore(rootReducer, Object.assign({}, { ...state }), composeEnhancers)
+
+  // store.subscribe(() => {
+  //   console.log(store.getState())
+  // })
+
+  store.dispatch(add(10))
+
+  store.dispatch(addAsync(20))
+
+  return store
+}

@@ -1,11 +1,11 @@
 import App, { Container } from 'next/app'
 import MyContext from '../lib/my-context'
 import { Provider } from 'react-redux'
-import store from '../store/store'
+import withRedux from '../lib/with-redux'
 
 class MyApp extends App {
-
-  static async getInitialProps({ Component, ctx }) {
+  static async getInitialProps(ctx) {
+    const { Component } = ctx
     let pageProps = {}
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
@@ -16,9 +16,9 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps, reduxStore } = this.props
     return <div>
-      <Provider store={store}>
+      <Provider store={reduxStore}>
         <MyContext.Provider value={'test'}>
           <Component {...pageProps} />
         </MyContext.Provider>
@@ -27,4 +27,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp
+export default withRedux(MyApp)
