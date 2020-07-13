@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server.js",
+    "dev": "node server/server.js",
     "build": "next build",
     "start": "next start",
     "commit": "git-cz",
@@ -38,6 +38,7 @@
     "ioredis": "^4.17.3",
     "koa": "^2.13.0",
     "koa-router": "^9.1.0",
+    "koa-session": "^6.0.0",
     "less": "^3.11.3",
     "moment": "^2.27.0",
     "next": "^9.4.4",
