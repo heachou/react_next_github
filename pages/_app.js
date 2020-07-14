@@ -1,6 +1,6 @@
 import App, { Container } from 'next/app'
-import MyContext from '../lib/my-context'
 import { Provider } from 'react-redux'
+import Layout from '../components/Layout'
 import withRedux from '../lib/with-redux'
 
 class MyApp extends App {
@@ -14,14 +14,13 @@ class MyApp extends App {
       pageProps
     }
   }
-
   render() {
     const { Component, pageProps, reduxStore } = this.props
     return <div>
       <Provider store={reduxStore}>
-        <MyContext.Provider value={'test'}>
+        <Layout>
           <Component {...pageProps} />
-        </MyContext.Provider>
+        </Layout>
       </Provider>
     </div>
   }
