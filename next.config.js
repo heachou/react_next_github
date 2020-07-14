@@ -1,19 +1,13 @@
-// const withCSS = require('@zeit/next-css')
-// const withLess = require('@zeit/next-less')
-
-// if (typeof require !== 'undefined') {
-//   require.extensions['.css'] = file => { }
-// }
-
-// module.exports = withLess(withCSS({}))
-
 const withCss = require('@zeit/next-css')
 const withLess = require('@zeit/next-less')
 const withPlugins = require("next-compose-plugins/lib") //结合less css
+const config = require('./config')
+
+const { GITHUB_OAUTH_URL } = config
 
 module.exports = withPlugins([withLess, withCss], {
   webpack: (config, { isServer }) => {
-    if(isServer){
+    if (isServer) {
       const antStyles = /antd\/.*?\/style\/css.*?/
       const origExternals = [...config.externals]
       config.externals = [
@@ -34,4 +28,8 @@ module.exports = withPlugins([withLess, withCss], {
     }
     return config
   },
+  publicRuntimeConfig: {
+    GITHUB_OAUTH_URL,
+    OAUTH_URL: config.OAUTH_URL,
+  }
 })

@@ -1,11 +1,14 @@
-import { Layout, Input, Menu, Tooltip, Avatar, Button } from 'antd'
+import { Layout, Input, Menu, Tooltip, Avatar, Button,Dropdown } from 'antd'
 import { GithubOutlined, UserOutlined } from '@ant-design/icons'
+import getConfig from 'next/config'
 import Link from 'next/link'
 import { useState, useCallback } from 'react'
 import { withRouter } from 'next/router'
 import Container from './Container'
+import { connect } from 'react-redux'
 
 const { Header, Content, Footer } = Layout
+const { publicRuntimeConfig } = getConfig()
 
 const githubIconStyle = {
   color: 'white',
@@ -15,9 +18,7 @@ const githubIconStyle = {
   marginRight: 20
 }
 
-
-
-const AppLayout = ({ children, user = {}, router }) => {
+const AppLayout = ({ children, user, router }) => {
 
   const [search, setSearch] = useState('')
   const handleSearchChange = useCallback((event) => {
@@ -69,7 +70,7 @@ const AppLayout = ({ children, user = {}, router }) => {
                 </Dropdown>
               ) : (
                   <Tooltip placement="bottom" title="点击进行登录">
-                    <a href={`/prepare-auth?url=${router.asPath}`}>
+                    <a href={publicRuntimeConfig.OAUTH_URL}>
                       <Avatar size={40} icon={<UserOutlined />} />
                     </a>
                   </Tooltip>
@@ -113,4 +114,4 @@ const AppLayout = ({ children, user = {}, router }) => {
   )
 }
 
-export default withRouter(AppLayout)
+export default connect(state => ({ user: state.user }))(withRouter(AppLayout))
