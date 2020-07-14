@@ -45,7 +45,6 @@ app.prepare().then(() => {
 
   router.get('/api/user/get', (ctx) => {
     const session = ctx.session
-    console.log(session)
     ctx.body = JSON.stringify(session)
   })
 

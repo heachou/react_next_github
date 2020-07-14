@@ -3,6 +3,7 @@ import { GithubOutlined, UserOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import { useState, useCallback } from 'react'
 import { withRouter } from 'next/router'
+import Container from './Container'
 
 const { Header, Content, Footer } = Layout
 
@@ -40,8 +41,7 @@ const AppLayout = ({ children, user = {}, router }) => {
   return (
     <Layout>
       <Header>
-        {/* <Container> */}
-        <div className="header-inner">
+        <Container renderer={<div className="header-inner" />}>
           <div className="header-left">
             <div className="logo">
               <Link href="/">
@@ -76,13 +76,12 @@ const AppLayout = ({ children, user = {}, router }) => {
                 )}
             </div>
           </div>
-        </div>
-        {/* </Container> */}
+        </Container>
       </Header>
-      <Content>
+      <Container renderer={<Content />}>
         {children}
-      </Content>
-      <Footer style={{textAlign:'center'}}>
+      </Container>
+      <Footer style={{ textAlign: 'center' }}>
         develop by zhou @<a href="mailto:1244239990@qq.com">email</a>
       </Footer>
       <style jsx>{`
