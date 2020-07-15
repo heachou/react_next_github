@@ -3,6 +3,7 @@ const Router = require('koa-router')
 const next = require('next')
 const session = require('koa-session')
 const Redis = require('ioredis')
+const koaBody = require('koa-body')
 const RedisSessionStore = require('./session-store')
 const githubRoutes = require('./github_routes')
 const auth = require('./auth')
@@ -18,6 +19,8 @@ const redisClient = new Redis()
 app.prepare().then(() => {
   const server = new Koa()
   const router = new Router()
+  // 解析post请求的内容
+  server.use(koaBody())
 
   const sessionConfig = {
     key: 'ssid',
@@ -27,29 +30,7 @@ app.prepare().then(() => {
 
   // server.keys = ['sid']
   server.use(session(sessionConfig, server))
-
-  router.get('/b/:id', async (ctx) => {
-    const id = ctx.params.id
-    await handle(ctx.req, ctx.res, {
-      pathname: '/b',
-      query: { id }
-    })
-    ctx.respond = false
-  })
-
-  router.get('/api/user/set', (ctx) => {
-    ctx.session.user = {
-      username: 'test zhou',
-      age: 18
-    }
-    ctx.body = 'session set success'
-  })
-
-  router.get('/api/user/get', (ctx) => {
-    const session = ctx.session
-    ctx.body = JSON.stringify(session)
-  })
-
+  
   router.use('/github', githubRoutes.routes(), githubRoutes.allowedMethods())
 
   auth(router)
