@@ -4,6 +4,7 @@ const next = require('next')
 const session = require('koa-session')
 const Redis = require('ioredis')
 const RedisSessionStore = require('./session-store')
+const githubRoutes = require('./github_routes')
 const auth = require('./auth')
 
 const dev = process.env.NODE_ENV != "production"
@@ -48,7 +49,9 @@ app.prepare().then(() => {
     const session = ctx.session
     ctx.body = JSON.stringify(session)
   })
-  
+
+  router.use('/github', githubRoutes.routes(), githubRoutes.allowedMethods())
+
   auth(router)
 
   server.use(router.routes())

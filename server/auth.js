@@ -34,6 +34,7 @@ module.exports = (router) => {
           ctx.redirect((ctx.session && ctx.session.urlBeforeOAuth) || '/')
           ctx.session.urlBeforeOAuth = ''
         } catch (error) {
+          ctx.redirect('/error')
           console.log(error)
         }
 
@@ -56,7 +57,6 @@ module.exports = (router) => {
   router.get('/prepare-auth', async (ctx) => {
     const { url } = ctx.query
     //存储 url
-    console.log('url', url)
     ctx.session.urlBeforeOAuth = url
     //跳转授权重定向 维持OAuth之前得页面访问
     ctx.redirect(config.OAUTH_URL)

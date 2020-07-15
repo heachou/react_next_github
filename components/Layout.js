@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Layout, Input, Menu, Tooltip, Avatar, Button,Dropdown } from 'antd'
+import { Layout, Input, Menu, Tooltip, Avatar, Button, Dropdown } from 'antd'
 import { GithubOutlined, UserOutlined } from '@ant-design/icons'
 import getConfig from 'next/config'
 import Link from 'next/link'
@@ -28,10 +28,9 @@ const AppLayout = ({ children, router }) => {
     setSearch(event.target.value)
   }, [setSearch])
 
-  const handleOnSearch = useCallback(() => {
-    // router.push(`/search?query=${search}`)
-  }, [search])
-
+  const handleOnSearch = () => {
+    router.push(`/search?query=${search}`)
+  }
   const handleLogout = () => {
     dispatch(logout())
   }

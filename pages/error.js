@@ -1,0 +1,1 @@
+export default () => <span>something wrong</span>
