@@ -1,11 +1,12 @@
+import { useState, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Layout, Input, Menu, Tooltip, Avatar, Button,Dropdown } from 'antd'
 import { GithubOutlined, UserOutlined } from '@ant-design/icons'
 import getConfig from 'next/config'
 import Link from 'next/link'
-import { useState, useCallback } from 'react'
 import { withRouter } from 'next/router'
 import Container from './Container'
-import { connect } from 'react-redux'
+import { logout } from '../store/actionCreatores'
 
 const { Header, Content, Footer } = Layout
 const { publicRuntimeConfig } = getConfig()
@@ -18,9 +19,11 @@ const githubIconStyle = {
   marginRight: 20
 }
 
-const AppLayout = ({ children, user, router }) => {
+const AppLayout = ({ children, router }) => {
 
   const [search, setSearch] = useState('')
+  const user = useSelector((store) => store.user)
+  const dispatch = useDispatch()
   const handleSearchChange = useCallback((event) => {
     setSearch(event.target.value)
   }, [setSearch])
@@ -29,7 +32,9 @@ const AppLayout = ({ children, user, router }) => {
     // router.push(`/search?query=${search}`)
   }, [search])
 
-  const handleLogout = () => { }
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   const UserDropDown = (
     <Menu>
@@ -70,7 +75,7 @@ const AppLayout = ({ children, user, router }) => {
                 </Dropdown>
               ) : (
                   <Tooltip placement="bottom" title="点击进行登录">
-                    <a href={publicRuntimeConfig.OAUTH_URL}>
+                    <a href={`/prepare-auth?url=${router.asPath}`}>
                       <Avatar size={40} icon={<UserOutlined />} />
                     </a>
                   </Tooltip>
@@ -83,7 +88,7 @@ const AppLayout = ({ children, user, router }) => {
         {children}
       </Container>
       <Footer style={{ textAlign: 'center' }}>
-        develop by zhou @<a href="mailto:1244239990@qq.com">email</a>
+        develop by zhou @<a href="mailto:1244239990@qq.com">me</a>
       </Footer>
       <style jsx>{`
             .header-inner{
@@ -114,4 +119,4 @@ const AppLayout = ({ children, user, router }) => {
   )
 }
 
-export default connect(state => ({ user: state.user }))(withRouter(AppLayout))
+export default withRouter(AppLayout)

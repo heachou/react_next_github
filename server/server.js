@@ -4,6 +4,7 @@ const next = require('next')
 const session = require('koa-session')
 const Redis = require('ioredis')
 const RedisSessionStore = require('./session-store')
+const auth = require('./auth')
 
 const dev = process.env.NODE_ENV != "production"
 const app = next({ dev })
@@ -47,6 +48,8 @@ app.prepare().then(() => {
     const session = ctx.session
     ctx.body = JSON.stringify(session)
   })
+  
+  auth(router)
 
   server.use(router.routes())
 
