@@ -4,21 +4,21 @@ import getConfig from 'next/config'
 import Router, { withRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import { request } from '../lib/api'
-// import initCache from '../lib/client-cache'
-// import Repo from '../components/Repo'
+import initCache from '../lib/client-cache'
+import Repo from '../components/Repo'
 
 const { publicRuntimeConfig } = getConfig()
 
-// const { cache, useCache } = initCache()
+const { cache, useCache } = initCache()
 
 const Index = ({ userRepos, starred, router }) => {
   const user = useSelector((store) => store.user)
   const tabKey = router.query.key || '1'
 
-  // useCache('cache', {
-  //   userRepos,
-  //   starred,
-  // })
+  useCache('cache', {
+    userRepos,
+    starred,
+  })
 
   if (!user || !user.id) {
     return (
@@ -63,16 +63,16 @@ const Index = ({ userRepos, starred, router }) => {
         </p>
       </div>
       <div className="user-repos">
-        <Tabs activeKey={tabKey} onChange={handleTabChange} animated={false}>
+        <Tabs activeKey={tabKey} onChange={handleTabChange} animated={true}>
           <Tabs.TabPane tab="你的仓库" key="1">
-            {/* {userRepos.map((repo) => (
+            {userRepos.map((repo) => (
               <Repo key={repo.id} repo={repo} />
-            ))} */}
+            ))}
           </Tabs.TabPane>
           <Tabs.TabPane tab="你关注的仓库" key="2">
-            {/* {starred.map((repo) => (
+            {starred.map((repo) => (
               <Repo key={repo.id} repo={repo} />
-            ))} */}
+            ))}
           </Tabs.TabPane>
         </Tabs>
       </div>
@@ -115,6 +115,7 @@ const Index = ({ userRepos, starred, router }) => {
 
           .user-repos {
             flex: 1;
+            max-width: 900px;
           }
 
           :global(.icon-email) {
@@ -126,7 +127,7 @@ const Index = ({ userRepos, starred, router }) => {
   )
 }
 
-Index.getInitialProps = async ({ ctx, reduxStore }) => {
+Index.getInitialProps = cache(async ({ ctx, reduxStore }) => {
   //判断用户是否登出
   const { user } = reduxStore.getState()
   if (!user || !user.id) {
@@ -151,7 +152,8 @@ Index.getInitialProps = async ({ ctx, reduxStore }) => {
   return {
     userRepos,
     starred,
+    isOk: true
   }
-}
+})
 
 export default withRouter(Index)

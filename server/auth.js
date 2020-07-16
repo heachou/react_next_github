@@ -35,7 +35,6 @@ module.exports = (router) => {
           ctx.session.urlBeforeOAuth = ''
         } catch (error) {
           ctx.redirect('/error')
-          console.log(error)
         }
 
       } else {

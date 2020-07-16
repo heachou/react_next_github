@@ -25,7 +25,6 @@ class MyApp extends App {
   }
   //开始loading
   startLoading = () => {
-    console.log('start')
     this.setState({
       loading: true,
     })
